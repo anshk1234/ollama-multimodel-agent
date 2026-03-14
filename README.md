@@ -5,7 +5,7 @@ A Streamlit based web interface for interacting with multimodal AI models runnin
 This project allows users to run powerful AI models on their own machine and interact with them through a simple web interface. The Streamlit app acts as the frontend UI while Ollama handles the local model inference.
 
 ## Features
-
+        
 * Local AI model execution using Ollama
 * Clean web interface built with Streamlit
 * Multimodal support (text and file inputs)
@@ -90,6 +90,12 @@ Ollama
 * Model selection inside UI
 * Chat history memory
 * Deployment options
+
+## Try the web app:
+
+[ollama multimodel agent](https://ollama-multimodel-agent.streamlit.app/) powered by streamlit
+
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ollama-multimodel-agent.streamlit.app/)
 
 ## License
 
