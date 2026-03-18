@@ -1,106 +1,145 @@
-# Ollama Multimodal Agent
+# DataVyn Labs · AI Agent
 
-A Streamlit based web interface for interacting with multimodal AI models running locally through Ollama.
+<p align="center">
+  <img src="logo.png" width="280" alt="DataVyn Labs">
+</p>
 
-This project allows users to run powerful AI models on their own machine and interact with them through a simple web interface. The Streamlit app acts as the frontend UI while Ollama handles the local model inference.
+<p align="center">
+  A clean, minimal AI chat interface powered by <strong>Ollama Cloud Models</strong>
+</p>
+
+<p align="center">
+  <a href="https://github.com/DataVyn-labs">GitHub</a> ·
+  <a href="https://ollama.com">Ollama</a> ·
+  Built with Streamlit
+</p>
+
+---
 
 ## Features
-        
-* Local AI model execution using Ollama
-* Clean web interface built with Streamlit
-* Multimodal support (text and file inputs)
-* No external API keys required
-* Fully local and privacy friendly
 
-## Architecture
+| | Feature | Details |
+|---|---|---|
+| 🤖 | **Cloud Models** | 19 verified Ollama cloud models from OpenAI, DeepSeek, Qwen, Gemini, Mistral, Kimi, GLM, MiniMax and more |
+| ⚡ | **Streaming** | Responses stream token by token in real time |
+| 🎨 | **Model Avatars** | Each AI shows its company logo in chat (ChatGPT, DeepSeek, Gemini, Mistral...) |
+| 📎 | **File Upload** | Attach `.txt` `.pdf` `.json` `.py` `.csv` — content sent to the model |
+| 🎙 | **Audio Input** | Record voice via mic, auto-transcribed to text |
+| 🔐 | **Secure Login** | API key stored in session only — never saved to disk |
+| 🌑 | **Dark UI** | Clean Claude.ai-style dark theme with Inter font |
 
-User Interface: Streamlit
-Model Runtime: Ollama (running locally)
+---
 
-Flow:
+## Quick Start
 
-User Input → Streamlit UI → Local Ollama Model → Response → Streamlit Output
+### 1. Clone the project
 
-The application sends prompts from the Streamlit frontend to the Ollama server running locally on the user's machine.
+```bash
+git clone https://github.com/DataVyn-labs/ollama-agent
+cd ollama-agent
+```
 
-## Installation
+### 2. Install dependencies
 
-### 1. Clone the repository
-
-git clone https://github.com/anshk1234/ollama-multimodel-agent.git
-
-cd ollama-multimodel-agent
-
-### 2. Install Python dependencies
-
+```bash
 pip install -r requirements.txt
+```
 
-### 3. Install Ollama
+### 3. Run
 
-Download and install Ollama from:
+```bash
+streamlit run app.py
+```
 
-https://ollama.com
+Open [http://localhost:8501](http://localhost:8501) in your browser.
 
-### 4. Pull a model
+---
 
-Example:
+## Getting an Ollama API Key
 
-ollama pull llama3
+1. Go to [ollama.com](https://ollama.com) and create a free account
+2. Navigate to **Settings → API Keys**
+3. Click **Create new key**
+4. Paste it into the app login screen
 
-or
+---
 
-ollama pull llava
+## Available Cloud Models
 
-## Running the Application
+| Model | ID | Company |
+|---|---|---|
+| GPT-OSS 120B | `gpt-oss:120b` | OpenAI (open weights) |
+| GPT-OSS 20B | `gpt-oss:20b` | OpenAI (open weights) |
+| DeepSeek V3.2 | `deepseek-v3.2` | DeepSeek |
+| DeepSeek V3.1 671B | `deepseek-v3.1:671b` | DeepSeek |
+| Qwen3-Coder 480B | `qwen3-coder:480b` | Alibaba |
+| Qwen3-Coder-Next | `qwen3-coder-next` | Alibaba |
+| Qwen3-Next 80B | `qwen3-next:80b` | Alibaba |
+| Kimi K2.5 | `kimi-k2.5` | Moonshot AI |
+| Kimi K2 Thinking | `kimi-k2-thinking` | Moonshot AI |
+| Gemini 3 Flash Preview | `gemini-3-flash-preview` | Google |
+| MiniMax M2.5 | `minimax-m2.5` | MiniMax |
+| MiniMax M2.1 | `minimax-m2.1` | MiniMax |
+| MiniMax M2 | `minimax-m2` | MiniMax |
+| GLM-5 | `glm-5` | Zhipu AI |
+| GLM-4.7 | `glm-4.7` | Zhipu AI |
+| Devstral 2 123B | `devstral-2:123b` | Mistral |
+| Devstral Small 2 24B | `devstral-small-2:24b` | Mistral |
+| Cogito 2.1 671B | `cogito-2.1:671b` | Essential AI |
+| Nemotron 3 Nano 30B | `nemotron-3-nano:30b` | NVIDIA |
 
-Start the Streamlit app:
+Full list → [ollama.com/search?c=cloud](https://ollama.com/search?c=cloud)
 
-streamlit run main.py
+---
 
-Make sure the Ollama server is running locally before starting the app.
+## Configuration
 
-## Example Workflow
+Edit these constants at the top of `app.py` (~line 337):
 
-1. Start Ollama on your system
-2. Run the Streamlit application
-3. Open the provided local URL
-4. Enter prompts or upload inputs
-5. The app sends the request to Ollama
-6. The model response is displayed in the UI
+```python
+TEMPERATURE = 0.6    # 0.0 = focused  |  1.0 = creative
+MAX_TOKENS  = 1200   # max tokens per response (hard cap: 2000)
+```
+
+---
 
 ## Project Structure
 
-ollama-multimodel-agent
+```
+datavynlabs_agent/
+├── app.py            # Main Streamlit application
+├── logo.png          # DataVyn Labs logo
+├── requirements.txt  # Python dependencies
+└── README.md         # This file
+```
 
-.streamlit/
-main.py
-requirements.txt
-neural.json
-LICENSE
+---
 
-## Tech Stack
+## Requirements
 
-Python
-Streamlit
-Ollama
+```
+streamlit>=1.43.0
+requests>=2.31.0
+```
 
-## Future Improvements
+---
 
-* Better multimodal file handling
-* Model selection inside UI
-* Chat history memory
-* Deployment options
+## Notes
 
-## Try the web app:
+- API key is stored **in session memory only** — cleared on sign out or tab close
+- Audio input (`accept_audio=True`) requires **Streamlit 1.43+** — run `pip install --upgrade streamlit` if needed
+- Uploaded file content is truncated to **4 000 characters** before being sent to the model
+- All model requests go through `https://ollama.com/api/chat`
+- System prompt instructs the model to give concise, complete answers within the token limit
 
-[ollama multimodel agent](https://ollama-multimodel-agent.streamlit.app/) powered by streamlit
+---
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ollama-multimodel-agent.streamlit.app/)
+## About DataVyn Labs
 
-## License
+**DataVyn Labs** builds intelligent data automation and AI agent tools for modern teams.
 
-MIT License
+🔗 [github.com/DataVyn-labs](https://github.com/DataVyn-labs)
 
-## Author
+---
 
-Ansh Kunwar
+*© 2026 DataVyn Labs*
