@@ -7,7 +7,6 @@ LOGO_HTML = f'<img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSU
 
 st.set_page_config(
     page_title="DataVyn Labs · AI Agent",
-    page_icon="🔷",
     layout="centered",
     initial_sidebar_state="expanded",
 )
