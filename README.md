@@ -1,4 +1,4 @@
-# DataVyn Labs · AI Agent
+
 
 <p align="center">
   <img src="logo.png" width="350" alt="DataVyn Labs">
