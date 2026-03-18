@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/DataVyn-labs">GitHub</a> ·
+  <a href="https://github.com/DataVyn-labs">DataVyn Labs</a> ·
   <a href="https://ollama.com">Ollama</a> ·
   Built with Streamlit
 </p>
