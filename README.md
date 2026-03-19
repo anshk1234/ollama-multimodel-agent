@@ -38,7 +38,7 @@
 ### 1. Clone the project
 
 ```bash
-git clone https://github.com/DataVyn-labs/ollama-agent
+git clone https://github.com/anshk1234/DataVyn-Labs-X-Ollama-agents
 cd ollama-agent
 ```
 
