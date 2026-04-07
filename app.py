@@ -530,14 +530,24 @@ if prompt:
     if prompt.text:
         user_text = prompt.text
 
+    image_b64_list = []   # base64 strings for images in this turn
     if prompt.files:
+        import base64
+        IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp", ".img"}
         for f in prompt.files:
-            try:
-                raw = f.read()
-                file_str = raw.decode("utf-8", errors="replace")
-                file_context += f"\n\n[Attached file: {f.name}]\n```\n{file_str[:4000]}\n```"
-            except Exception as e:
-                file_context += f"\n\n[Could not read {f.name}: {e}]"
+            ext = "." + f.name.rsplit(".", 1)[-1].lower() if "." in f.name else ""
+            raw = f.read()
+            if ext in IMAGE_EXTS:
+                # Send as base64 for vision models
+                b64 = base64.b64encode(raw).decode("utf-8")
+                image_b64_list.append(b64)
+                file_context += f"\n\n[Attached image: {f.name}]"
+            else:
+                try:
+                    file_str = raw.decode("utf-8", errors="replace")
+                    file_context += f"\n\n[Attached file: {f.name}]\n```\n{file_str[:4000]}\n```"
+                except Exception as e:
+                    file_context += f"\n\n[Could not read {f.name}: {e}]"
 
     if not user_text and not file_context:
         st.stop()
@@ -545,16 +555,25 @@ if prompt:
     display_text      = user_text if user_text else "(file attached)"
     full_user_content = user_text + file_context
 
-    st.session_state.chats[st.session_state.current_chat].append(
-        {"role": "user", "content": full_user_content}
-    )
+    # Build the user message — with images if present
+    if image_b64_list:
+        user_msg_content = {
+            "role": "user",
+            "content": full_user_content,
+            "images": image_b64_list,
+        }
+    else:
+        user_msg_content = {"role": "user", "content": full_user_content}
+
+    st.session_state.chats[st.session_state.current_chat].append(user_msg_content)
+
     with st.chat_message("user"):
         st.markdown(display_text)
         if file_context:
             st.caption(f"📎 {', '.join(f.name for f in prompt.files)}")
 
     api_msgs = [{"role": "system", "content": SYS_INSTR}] + [
-        {"role": m["role"], "content": m["content"]}
+        {k: v for k, v in m.items()}          # include images key if present
         for m in st.session_state.chats[st.session_state.current_chat]
     ]
 
@@ -569,3 +588,4 @@ if prompt:
     st.session_state.chats[st.session_state.current_chat].append(
         {"role": "assistant", "content": full_reply}
     )
+    
