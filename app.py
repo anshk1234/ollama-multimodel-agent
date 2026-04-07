@@ -7,6 +7,7 @@ LOGO_HTML = f'<img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSU
 
 st.set_page_config(
     page_title="DataVyn Labs · AI Agent",
+    page_icon="🔷",
     layout="centered",
     initial_sidebar_state="expanded",
 )
@@ -309,6 +310,7 @@ CLOUD_MODELS = {
     "DeepSeek V3.2":            "deepseek-v3.2",
     "DeepSeek V3.1 671B":       "deepseek-v3.1:671b",
     # ── Qwen ──
+    "qwen3.5-Coder 397B":       "qwen3.5:397b-cloud",
     "Qwen3-Coder 480B":         "qwen3-coder:480b",
     "Qwen3-Coder-Next":         "qwen3-coder-next",
     "Qwen3-Next 80B":           "qwen3-next:80b",
@@ -316,8 +318,10 @@ CLOUD_MODELS = {
     "Kimi K2.5":                "kimi-k2.5",
     "Kimi K2 Thinking":         "kimi-k2-thinking",
     # ── Google ──
+    "Gemma4 ":         "gemma4:31b-cloud",
     "Gemini 3 Flash Preview":   "gemini-3-flash-preview",
     # ── MiniMax ──
+    "MiniMax M2.7":             "minimax-m2.7:cloud",
     "MiniMax M2.5":             "minimax-m2.5",
     "MiniMax M2.1":             "minimax-m2.1",
     "MiniMax M2":               "minimax-m2",
@@ -334,7 +338,7 @@ CLOUD_MODELS = {
 
 # Fixed: concise, on-point responses — balanced temperature, 600 token cap
 TEMPERATURE = 0.6
-MAX_TOKENS  = 1600
+MAX_TOKENS  = 2000
 SYS_INSTR   = (
     "You are a helpful AI assistant. "
     "Always write complete, finished responses — never leave a sentence or thought unfinished. "
@@ -461,7 +465,6 @@ with st.sidebar:
             unsafe_allow_html=True,
         )
         st.stop()
-
     st.divider()
 
     st.markdown("""
@@ -517,7 +520,7 @@ prompt = st.chat_input(
     "Say something, record audio (speech-to-text), or attach a file",
     accept_audio=True,
     accept_file=True,
-    file_type=["txt", "pdf", "json", "py", "csv"],
+    file_type=["txt", "pdf", "json", "py", "csv", "jpg", "png", "md", "img"],
 )
 
 if prompt:
